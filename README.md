@@ -1,4 +1,4 @@
-## 🚗 **Sistema de Caronas Universitárias — UFOP Caronas**
+## 🚗 **Sistema de Caronas Universitárias — UFOP**
 
 ### 🎯 **Escopo do Sistema**
 
