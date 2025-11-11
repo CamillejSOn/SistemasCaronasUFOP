@@ -82,11 +82,3 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 ---
 
-## 🧠 **Diferenciais**
-
-* Resolvido um problema real da comunidade acadêmica.
-* Facilita deslocamento e comunicação entre alunos.
-* Sistema escalável (futuras versões podem incluir chat, avaliações ou integração com mapas).
-* Cumpre todos os requisitos da disciplina: pequeno, útil, colaborativo e realista.
-
----
