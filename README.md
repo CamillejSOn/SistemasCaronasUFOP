@@ -82,3 +82,10 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 ---
 
+# 🛠️ Diagramas do Projeto
+
+## 1. Diagrama de Casos de Uso
+
+<img src="Diagrama%20de%20Casos%20de%20Uso.jpg" width="500">
+
+> Este diagrama descreve as funcionalidades do sistema **UFOP Caronas** a partir da perspectiva dos atores (Usuário, Motorista, Passageiro e Administrador), onde cada elipse representa uma das 10 histórias de usuário do backlog.
