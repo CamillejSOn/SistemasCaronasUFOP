@@ -96,8 +96,8 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 > Este diagrama de classes representa a estrutura estática do sistema UFOP Caronas, descrevendo as principais classes, seus atributos, métodos e os relacionamentos entre elas. O diagrama evidencia como as entidades do sistema (como Usuário, Carona, Reserva e Administrador) se organizam e interagem, servindo como base para a implementação do backend e para o entendimento da modelagem orientada a objetos do sistema.
 
-# 📱4. Protótipo de Telas
+## 📱4. Protótipo de Telas
 
-[ Link do Prótipo no Figma ](*https://www.figma.com/proto/JX83ecF6aAnFnJHsSlapW5/APP_CARONAS_UFOP?page-id=0%3A1&node-id=2-7712&p=f&viewport=142%2C104%2C0.42&t=nFNyRpldk4Q3vKQJ-1&scaling=scale-down&content-scaling=fixed)
+[👉 Acessar Protótipo no Figma](https://www.figma.com/proto/JX83ecF6aAnFnJHsSlapW5/APP_CARONAS_UFOP?page-id=0%3A1&node-id=2-7712&p=f&viewport=142%2C104%2C0.42&t=nFNyRpldk4Q3vKQJ-1&scaling=scale-down&content-scaling=fixed)
 
-[ Link do Prótipo em PDF ](*https://github.com/CamillejSOn/SistemasCaronasUFOP/blob/main/APP_CARONAS_UFOP.pdf)
+[👉 Acessar Protótipo em PDF](https://github.com/CamillejSOn/SistemasCaronasUFOP/blob/main/APP_CARONAS_UFOP.pdf)
