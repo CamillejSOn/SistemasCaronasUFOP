@@ -124,6 +124,17 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 ![Historia 7](historia7.png)
 
+8. Como usuário, quero ver meu histórico de caronas oferecidos e recebidos .
+
+![Historia 8](historia8.png)
+
+9. Como administrador, quero gerar relatórios de uso do sistema **(quantidade de usuários, caronas e reservas)**.
+
+![Historia 9](historia9.png)
+
+10. Como administrador, quero ver as rotas mais utilizadas **(origem/destino mais frequentes)**.
+
+![Historia 10](historia10.png)
 
 
 
