@@ -62,23 +62,22 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 ---
 
-## 📈 **Visão de Implementação**
+## 📈 Visão de Implementação
 
 * **Banco de Dados:**
-
-  * Tabelas: `usuarios`, `caronas`, `reservas`.
-  * Relacionamentos:
-
-    * `usuarios` (1:N) `caronas`
-    * `usuarios` (N:M) `caronas` via `reservas`.
+  * Tabelas: `usuarios`, `caronas`, `reservas`
+  * Relacionamentos:
+    * Um usuário pode oferecer várias caronas (1:N), assumindo o papel de motorista
+    * Um usuário pode reservar várias caronas, e uma carona pode ter vários usuários (N:M), por meio da tabela `reservas`
 
 * **Fluxo principal de uso:**
 
-  1. Usuário cria conta e faz login.
-  2. Motorista cadastra uma carona.
-  3. Passageiro busca e reserva uma vaga.
-  4. Sistema atualiza o número de vagas.
-  5. Ambos visualizam histórico e relatórios.
+1. Usuário cria conta e faz login.
+2. Motorista cadastra uma carona.
+3. Passageiro busca e reserva uma vaga.
+4. Sistema atualiza o número de vagas.
+5. Ambos visualizam histórico e relatórios.
+
 
 ---
 
