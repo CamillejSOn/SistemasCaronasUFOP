@@ -93,7 +93,6 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 ## 2. Diagrama de Classes
 
 ![Novo Diagrama](a1b95519-6308-40c3-a75c-f06ad7b6cb4f.jpg)
-<h2 align="center">
 
 > Este diagrama de classes representa a estrutura estática do sistema UFOP Caronas, descrevendo as principais classes, seus atributos, métodos e os relacionamentos entre elas. O diagrama evidencia como as entidades do sistema (como Usuário, Carona, Reserva e Administrador) se organizam e interagem, servindo como base para a implementação do backend e para o entendimento da modelagem orientada a objetos do sistema.
 
