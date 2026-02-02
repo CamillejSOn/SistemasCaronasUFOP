@@ -117,7 +117,14 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 ![historia 5](historia5.png)
 
 6. Como motorista, quero **visualizar** os passageiros que reservaram minhas caronas .
+
 ![historia 6](Historia6.png)
+
+7. Como usuário, quero cancelar uma carona ou reserva .
+
+![historia 7](Historia7.png)
+
+
 
 
 ## 4. Protótipo de Telas
