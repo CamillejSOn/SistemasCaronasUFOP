@@ -122,7 +122,7 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 7. Como usuário, quero cancelar uma carona ou reserva .
 
-![Historia 7](Historia7.png)
+![Historia 7](Historia_7.png)
 
 
 
