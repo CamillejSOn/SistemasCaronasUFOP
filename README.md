@@ -93,7 +93,7 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 ## 2. Diagrama de Classes
 
 ![Novo Diagrama](a1b95519-6308-40c3-a75c-f06ad7b6cb4f.jpg)
-<h2 align="center">🖼️ Novo Diagrama</h2>
+<h2 align="center">
 
 
 
