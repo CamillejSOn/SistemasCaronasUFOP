@@ -86,13 +86,13 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 ## 1. Diagrama de Casos de Uso
 
-<img src="Diagrama%20de%20Casos%20de%20Uso.jpg" width="500">
+![Diagrama de Casos de Uso](diagramacasosdeuso.png)
 
 > Este diagrama descreve as funcionalidades do sistema **UFOP Caronas** a partir da perspectiva dos atores (Usuário, Motorista, Passageiro e Administrador), onde cada elipse representa uma das 10 histórias de usuário do backlog.
 
 ## 2. Diagrama de Classes
 
-![Novo Diagrama](Diagrama de classes)
+![Diagrama de Classes](diagramadeclasses.png)
 
 > Este diagrama de classes representa a estrutura estática do sistema UFOP Caronas, descrevendo as principais classes, seus atributos, métodos e os relacionamentos entre elas. O diagrama evidencia como as entidades do sistema (como Usuário, Carona, Reserva e Administrador) se organizam e interagem, servindo como base para a implementação do backend e para o entendimento da modelagem orientada a objetos do sistema.
 
