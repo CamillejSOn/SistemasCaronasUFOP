@@ -96,6 +96,28 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 > Este diagrama de classes representa a estrutura estática do sistema UFOP Caronas, descrevendo as principais classes, seus atributos, métodos e os relacionamentos entre elas. O diagrama evidencia como as entidades do sistema (como Usuário, Carona, Reserva e Administrador) se organizam e interagem, servindo como base para a implementação do backend e para o entendimento da modelagem orientada a objetos do sistema.
 
+## 3. Diagrama de Atividades
+1. Como usuário, quero **me cadastrar no sistema** com nome, e-mail, senha e cidade base.
+
+![historia 1](historia1.png)
+
+2. Como usuário, quero **fazer login e logout** para acessar minhas caronas e reservas.
+
+![historia 2](historia2.png)
+
+3. Como motorista, quero **oferecer uma carona**, informando origem, destino, data, horário e número de vagas.
+
+![historia 3](historia3.png)
+
+4. Como passageiro, quero **buscar caronas disponíveis** filtrando por cidade, horário e motorista.
+
+![historia 4](historia4.png)
+
+5. Como passageiro, quero **reservar uma vaga** em uma carona disponível.
+
+![historia 5](historia5.png)
+
+
 ## 4. Protótipo de Telas
 
 [👉 Acessar Protótipo no Figma](https://www.figma.com/proto/JX83ecF6aAnFnJHsSlapW5/APP_CARONAS_UFOP?page-id=0%3A1&node-id=2-7712&p=f&viewport=142%2C104%2C0.42&t=nFNyRpldk4Q3vKQJ-1&scaling=scale-down&content-scaling=fixed)
