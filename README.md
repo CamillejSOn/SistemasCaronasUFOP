@@ -85,56 +85,56 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 ## 1. Diagrama de Casos de Uso
 
-![Diagrama de Casos de Uso](diagramacasosdeuso.png)
+![Diagrama de Casos de Uso](/docs/diagramas/diagramacasosdeuso.png)
 
 > Este diagrama descreve as funcionalidades do sistema **UFOP Caronas** a partir da perspectiva dos atores (Usuário, Motorista, Passageiro e Administrador), onde cada elipse representa uma das 10 histórias de usuário do backlog.
 
 ## 2. Diagrama de Classes
 
-![Diagrama de Classes](diagramadeclasses.png)
+![Diagrama de Classes](/docs/diagramas/diagramadeclasses.png)
 
 > Este diagrama de classes representa a estrutura estática do sistema UFOP Caronas, descrevendo as principais classes, seus atributos, métodos e os relacionamentos entre elas. O diagrama evidencia como as entidades do sistema (como Usuário, Carona, Reserva e Administrador) se organizam e interagem, servindo como base para a implementação do backend e para o entendimento da modelagem orientada a objetos do sistema.
 
 ## 3. Diagrama de Atividades
 1. Como usuário, quero **me cadastrar no sistema** com nome, e-mail, senha e cidade base.
 
-![historia 1](historia1.png)
+![historia 1](/docs/historias/historia1.png)
 
 2. Como usuário, quero **fazer login e logout** para acessar minhas caronas e reservas.
 
-![historia 2](historia2.png)
+![historia 2](/docs/historias/historia2.png)
 
 3. Como motorista, quero **oferecer uma carona**, informando origem, destino, data, horário e número de vagas.
 
-![historia 3](historia3.png)
+![historia 3](/docs/historias/historia3.png)
 
 4. Como passageiro, quero **buscar caronas disponíveis** filtrando por cidade, horário e motorista.
 
-![historia 4](historia4.png)
+![historia 4](/docs/historias/historia4.png)
 
 5. Como passageiro, quero **reservar uma vaga** em uma carona disponível.
 
-![historia 5](historia5.png)
+![historia 5](/docs/historias/historia5.png)
 
 6. Como motorista, quero **visualizar** os passageiros que reservaram minhas caronas .
 
-![historia 6](historia6.png)
+![historia 6](/docs/historias/historia6.png)
 
 7. Como usuário, quero cancelar uma carona ou reserva .
 
-![Historia 7](historia7.png)
+![Historia 7](/docs/historias/historia7.png)
 
 8. Como usuário, quero ver meu histórico de caronas oferecidos e recebidos .
 
-![Historia 8](historia8.png)
+![Historia 8](/docs/historias/historia8.png)
 
 9. Como administrador, quero gerar relatórios de uso do sistema **(quantidade de usuários, caronas e reservas)**.
 
-![Historia 9](historia9.png)
+![Historia 9](/docs/historias/historia9.png)
 
 10. Como administrador, quero ver as rotas mais utilizadas **(origem/destino mais frequentes)**.
 
-![Historia 10](historia10.png)
+![Historia 10](/docs/historias/historia10.png)
 
 
 
