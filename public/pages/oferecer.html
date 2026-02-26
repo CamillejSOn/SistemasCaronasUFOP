@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oferecer Carona — UFOP</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar" id="navbar"></nav>
+
+  <div class="page">
+    <div class="container" style="max-width: 680px;">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Oferecer Carona</h1>
+          <p class="page-subtitle">Preencha os detalhes da sua viagem</p>
+        </div>
+        <a href="../pages/dashboard.html" class="btn btn-sm" style="background: var(--creme-escuro); color: var(--texto);">← Voltar</a>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <form id="caronaForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Origem *</label>
+                <input type="text" id="origem" class="form-control" placeholder="Ex: Belo Horizonte" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Destino *</label>
+                <input type="text" id="destino" class="form-control" placeholder="Ex: Ouro Preto" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Data da Viagem *</label>
+                <input type="date" id="data_viagem" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Horário de Saída *</label>
+                <input type="time" id="horario" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Número de Vagas *</label>
+                <input type="number" id="vagas_total" class="form-control" placeholder="Ex: 3" min="1" max="8" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Contribuição por pessoa (R$)</label>
+                <input type="number" id="valor_contribuicao" class="form-control" placeholder="0,00" min="0" step="0.01">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Observações</label>
+              <textarea id="observacoes" class="form-control" rows="3" placeholder="Ponto de encontro, restrições, etc..."></textarea>
+            </div>
+
+            <div style="background: var(--creme); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1.5rem; font-size: 0.88rem; color: var(--texto-suave);">
+              ℹ️ Ao publicar, outros alunos poderão reservar vagas e entrar em contato com você.
+            </div>
+
+            <button type="submit" class="btn btn-verde btn-full" id="btnPublicar" style="font-size: 1rem; padding: 14px;">
+              🚗 Publicar Carona
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="../js/app.js"></script>
+  <script>
+    requireAuth();
+    renderNavbar('oferecer');
+
+    // Set min date to today
+    document.getElementById('data_viagem').min = new Date().toISOString().split('T')[0];
+
+    document.getElementById('caronaForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnPublicar');
+      btn.disabled = true; btn.textContent = 'Publicando...';
+      const res = await apiFetch('/api/caronas', {
+        method: 'POST',
+        body: JSON.stringify({
+          origem: document.getElementById('origem').value,
+          destino: document.getElementById('destino').value,
+          data_viagem: document.getElementById('data_viagem').value,
+          horario: document.getElementById('horario').value,
+          vagas_total: parseInt(document.getElementById('vagas_total').value),
+          valor_contribuicao: parseFloat(document.getElementById('valor_contribuicao').value) || 0,
+          observacoes: document.getElementById('observacoes').value,
+        })
+      });
+      if (res.id) {
+        showToast('Carona publicada com sucesso! 🎉', 'success');
+        setTimeout(() => window.location.href = 'historico.html', 1200);
+      } else {
+        showToast(res.erro || 'Erro ao publicar', 'error');
+        btn.disabled = false; btn.textContent = '🚗 Publicar Carona';
+      }
+    });
+  </script>
+</body>
+</html>

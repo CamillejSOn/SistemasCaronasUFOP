@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — UFOP Caronas</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar" id="navbar"></nav>
+
+  <div class="page">
+    <div class="container">
+      <!-- Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Olá, <span id="nomeUsuario">...</span> 👋</h1>
+          <p class="page-subtitle">Bem-vindo ao seu painel de caronas</p>
+        </div>
+        <a href="oferecer.html" class="btn btn-verde">+ Oferecer Carona</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><span class="stat-icon">🚗</span><div class="stat-value" id="statOfereci">-</div><div class="stat-label">Caronas Oferecidas</div></div>
+        <div class="stat-card"><span class="stat-icon">🎫</span><div class="stat-value" id="statReservei">-</div><div class="stat-label">Reservas Feitas</div></div>
+        <div class="stat-card"><span class="stat-icon">✅</span><div class="stat-value" id="statConcluidas">-</div><div class="stat-label">Viagens Concluídas</div></div>
+        <div class="stat-card"><span class="stat-icon">📍</span><div class="stat-value" id="statCidade">-</div><div class="stat-label">Cidade Base</div></div>
+      </div>
+
+      <!-- Próximas Caronas -->
+      <div class="card mb-2">
+        <div class="card-header">
+          <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--verde);">🗓️ Próximas Caronas</h2>
+          <a href="caronas.html" class="btn btn-primary btn-sm">Ver todas</a>
+        </div>
+        <div class="card-body" id="proximasCaronas">
+          <div class="spinner"></div>
+        </div>
+      </div>
+
+      <!-- Ações Rápidas -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+        <a href="caronas.html" class="card" style="padding: 1.5rem; text-align: center; text-decoration: none; cursor: pointer;">
+          <div style="font-size: 2rem; margin-bottom: 0.75rem;">🔍</div>
+          <div style="font-family: 'Sora',sans-serif; font-weight: 700; color: var(--verde); margin-bottom: 0.25rem;">Buscar Carona</div>
+          <div style="font-size: 0.85rem; color: var(--texto-suave);">Encontre uma vaga</div>
+        </a>
+        <a href="oferecer.html" class="card" style="padding: 1.5rem; text-align: center; text-decoration: none; cursor: pointer;">
+          <div style="font-size: 2rem; margin-bottom: 0.75rem;">🚙</div>
+          <div style="font-family: 'Sora',sans-serif; font-weight: 700; color: var(--verde); margin-bottom: 0.25rem;">Oferecer Carona</div>
+          <div style="font-size: 0.85rem; color: var(--texto-suave);">Publique sua rota</div>
+        </a>
+        <a href="historico.html" class="card" style="padding: 1.5rem; text-align: center; text-decoration: none; cursor: pointer;">
+          <div style="font-size: 2rem; margin-bottom: 0.75rem;">📋</div>
+          <div style="font-family: 'Sora',sans-serif; font-weight: 700; color: var(--verde); margin-bottom: 0.25rem;">Meu Histórico</div>
+          <div style="font-size: 0.85rem; color: var(--texto-suave);">Ver viagens passadas</div>
+        </a>
+        <div id="adminCard" style="display: none;">
+          <a href="admin.html" class="card" style="padding: 1.5rem; text-align: center; text-decoration: none; cursor: pointer; background: linear-gradient(135deg, var(--verde), var(--verde-medio));">
+            <div style="font-size: 2rem; margin-bottom: 0.75rem;">🛡️</div>
+            <div style="font-family: 'Sora',sans-serif; font-weight: 700; color: white; margin-bottom: 0.25rem;">Admin</div>
+            <div style="font-size: 0.85rem; color: rgba(255,255,255,0.75);">Relatórios e dados</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="../js/app.js"></script>
+  <script>
+    requireAuth();
+    const u = getUsuario();
+    document.getElementById('nomeUsuario').textContent = u.nome.split(' ')[0];
+    document.getElementById('statCidade').textContent = u.cidade_base;
+    if (u.eh_admin) document.getElementById('adminCard').style.display = 'block';
+    renderNavbar('dashboard');
+
+    async function loadDashboard() {
+      const hist = await apiFetch('/api/historico');
+      if (!hist.oferecidas) return;
+      document.getElementById('statOfereci').textContent = hist.oferecidas.length;
+      document.getElementById('statReservei').textContent = hist.reservadas.length;
+      document.getElementById('statConcluidas').textContent = hist.oferecidas.filter(c => c.status === 'concluida').length;
+
+      // Próximas caronas
+      const caronas = await apiFetch('/api/caronas');
+      const container = document.getElementById('proximasCaronas');
+      if (!caronas.length) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🚗</div><h3>Nenhuma carona disponível</h3><p>Seja o primeiro a oferecer uma carona!</p></div>`;
+        return;
+      }
+      container.innerHTML = `<div class="caronas-grid">${caronas.slice(0, 4).map(renderCaronaCard).join('')}</div>`;
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>

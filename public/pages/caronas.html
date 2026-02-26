@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar Caronas — UFOP</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar" id="navbar"></nav>
+
+  <div class="page">
+    <div class="container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Caronas Disponíveis</h1>
+          <p class="page-subtitle">Encontre uma vaga para sua próxima viagem</p>
+        </div>
+        <a href="oferecer.html" class="btn btn-verde">+ Oferecer Carona</a>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filtros-bar">
+        <div class="filtros-grid">
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Origem</label>
+            <input type="text" id="filtroOrigem" class="form-control" placeholder="Ex: Belo Horizonte">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Destino</label>
+            <input type="text" id="filtroDestino" class="form-control" placeholder="Ex: Ouro Preto">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Data</label>
+            <input type="date" id="filtroData" class="form-control">
+          </div>
+          <button onclick="buscarCaronas()" class="btn btn-verde" style="height: 44px; align-self: end;">
+            🔍 Buscar
+          </button>
+        </div>
+      </div>
+
+      <!-- Resultados -->
+      <div id="resultado">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Reserva -->
+  <div class="modal-overlay" id="modalReserva">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Confirmar Reserva</h3>
+        <button class="close-btn" onclick="fecharModal()">✕</button>
+      </div>
+      <div id="modalConteudo"></div>
+      <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+        <button onclick="fecharModal()" class="btn btn-sm" style="background: var(--creme-escuro); color: var(--texto); flex:1;">Cancelar</button>
+        <button onclick="confirmarReserva()" class="btn btn-verde btn-sm" id="btnConfirmar" style="flex:2;">✅ Confirmar Reserva</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="../js/app.js"></script>
+  <script>
+    requireAuth();
+    renderNavbar('caronas');
+    let caronaAtual = null;
+
+    async function buscarCaronas() {
+      const params = new URLSearchParams();
+      const o = document.getElementById('filtroOrigem').value;
+      const d = document.getElementById('filtroDestino').value;
+      const dt = document.getElementById('filtroData').value;
+      if (o) params.set('origem', o);
+      if (d) params.set('destino', d);
+      if (dt) params.set('data', dt);
+
+      document.getElementById('resultado').innerHTML = '<div class="spinner"></div>';
+      const caronas = await apiFetch(`/api/caronas?${params}`);
+      renderResultados(caronas);
+    }
+
+    function renderResultados(caronas) {
+      const el = document.getElementById('resultado');
+      if (!caronas || !caronas.length) {
+        el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><h3>Nenhuma carona encontrada</h3><p>Tente outros filtros ou <a href="oferecer.html" class="link">ofereça uma carona</a>.</p></div>`;
+        return;
+      }
+      el.innerHTML = `
+        <p style="color: var(--texto-suave); font-size: 0.9rem; margin-bottom: 1rem;">${caronas.length} carona(s) encontrada(s)</p>
+        <div class="caronas-grid">${caronas.map(c => renderCaronaCardComReserva(c)).join('')}</div>
+      `;
+    }
+
+    function renderCaronaCardComReserva(c) {
+      const u = getUsuario();
+      const vagas = c.vagas_disponiveis;
+      const vagasClass = vagas > 2 ? 'vagas-ok' : vagas > 0 ? 'vagas-poucos' : 'vagas-esgotado';
+      const data = new Date(c.data_viagem + 'T00:00:00').toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
+      const isMotorista = u && u.id === c.motorista_id;
+      return `
+        <div class="carona-card">
+          <div class="carona-rota">
+            <div class="carona-cidade">${c.origem}</div>
+            <div class="carona-seta"></div>
+            <div class="carona-cidade">${c.destino}</div>
+          </div>
+          <div class="carona-meta">
+            <div class="meta-item"><div class="meta-icon">📅</div>${data}</div>
+            <div class="meta-item"><div class="meta-icon">🕐</div>${c.horario.slice(0,5)}</div>
+            <div class="meta-item"><div class="meta-icon">👤</div>${c.motorista_nome}</div>
+            ${c.valor_contribuicao > 0 ? `<div class="meta-item"><div class="meta-icon">💰</div>R$ ${parseFloat(c.valor_contribuicao).toFixed(2)}</div>` : ''}
+          </div>
+          ${c.observacoes ? `<p style="font-size: 0.85rem; color: var(--texto-suave); background: var(--creme); padding: 8px 12px; border-radius: 8px; margin-bottom: 1rem;">${c.observacoes}</p>` : ''}
+          <div class="carona-footer">
+            <span class="vagas-badge ${vagasClass}">🪑 ${vagas} vaga${vagas !== 1 ? 's' : ''}</span>
+            ${isMotorista
+              ? `<span style="font-size: 0.82rem; color: var(--texto-suave); font-style: italic;">Sua carona</span>`
+              : `<button onclick="abrirModal(${JSON.stringify(c).replace(/"/g,'&quot;')})" class="btn btn-primary btn-sm" ${vagas === 0 ? 'disabled' : ''}>
+                  ${vagas === 0 ? 'Sem vagas' : 'Reservar vaga →'}
+                </button>`
+            }
+          </div>
+        </div>`;
+    }
+
+    function abrirModal(carona) {
+      caronaAtual = carona;
+      const data = new Date(carona.data_viagem + 'T00:00:00').toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'long'});
+      document.getElementById('modalConteudo').innerHTML = `
+        <div style="background: var(--creme); border-radius: var(--radius-sm); padding: 1.25rem; margin-bottom: 1rem;">
+          <div class="carona-rota" style="margin-bottom: 0.75rem;">
+            <div class="carona-cidade">${carona.origem}</div>
+            <div class="carona-seta"></div>
+            <div class="carona-cidade">${carona.destino}</div>
+          </div>
+          <div class="carona-meta">
+            <div class="meta-item"><div class="meta-icon">📅</div>${data}</div>
+            <div class="meta-item"><div class="meta-icon">🕐</div>${carona.horario.slice(0,5)}</div>
+            <div class="meta-item"><div class="meta-icon">👤</div>${carona.motorista_nome}</div>
+          </div>
+        </div>
+        ${carona.valor_contribuicao > 0 
+          ? `<p style="background: #FEF3C7; padding: 10px 14px; border-radius: 8px; font-size: 0.88rem; color: #92400E;"> 💰 Contribuição sugerida: <strong>R$ ${parseFloat(carona.valor_contribuicao).toFixed(2)}</strong></p>`
+          : ''}
+      `;
+      document.getElementById('modalReserva').classList.add('open');
+    }
+
+    function fecharModal() {
+      document.getElementById('modalReserva').classList.remove('open');
+      caronaAtual = null;
+    }
+
+    async function confirmarReserva() {
+      if (!caronaAtual) return;
+      const btn = document.getElementById('btnConfirmar');
+      btn.disabled = true; btn.textContent = 'Reservando...';
+      const res = await apiFetch('/api/reservas', { method: 'POST', body: JSON.stringify({ carona_id: caronaAtual.id }) });
+      if (res.id) {
+        showToast('Vaga reservada com sucesso! 🎉', 'success');
+        fecharModal();
+        buscarCaronas();
+      } else {
+        showToast(res.erro || 'Erro ao reservar', 'error');
+        btn.disabled = false; btn.textContent = '✅ Confirmar Reserva';
+      }
+    }
+
+    buscarCaronas();
+  </script>
+</body>
+</html>
