@@ -5,7 +5,7 @@
 O **UFOP Caronas** é um sistema web colaborativo desenvolvido para **facilitar o deslocamento dos alunos da UFOP entre campus e cidades próximas**, conectando **motoristas** (que oferecem caronas) e **passageiros** (que procuram transporte).
 O sistema permitirá o **cadastro de usuários**, **criação e reserva de caronas**, **gestão de vagas e histórico de viagens**, além de **relatórios administrativos** sobre o uso da plataforma.
 
-O foco é implementar um **protótipo funcional**, com backend em **Python (Flask)** e banco de dados **SQLite**, aplicando os conceitos de **Engenharia de Software, metodologias ágeis e boas práticas de versionamento com GitHub**.
+O foco é implementar um **protótipo funcional**, com backend em **JavaScript** e banco de dados **PostgreSQL**, aplicando os conceitos de **Engenharia de Software, metodologias ágeis e boas práticas de versionamento com GitHub**.
 A equipe utilizará o **Notion** para organização do backlog, sprints e tarefas.
 
 ---
