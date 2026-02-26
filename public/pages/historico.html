@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico — UFOP Caronas</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar" id="navbar"></nav>
+
+  <div class="page">
+    <div class="container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Meu Histórico</h1>
+          <p class="page-subtitle">Caronas oferecidas e reservas realizadas</p>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('oferecidas', this)">🚗 Minhas Caronas</button>
+        <button class="tab-btn" onclick="switchTab('reservadas', this)">🎫 Minhas Reservas</button>
+      </div>
+
+      <div id="tabOferecidas">
+        <div id="listaOferecidas"><div class="spinner"></div></div>
+      </div>
+      <div id="tabReservadas" style="display: none;">
+        <div id="listaReservadas"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Passageiros -->
+  <div class="modal-overlay" id="modalPassageiros">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Passageiros da Carona</h3>
+        <button class="close-btn" onclick="document.getElementById('modalPassageiros').classList.remove('open')">✕</button>
+      </div>
+      <div id="listaPassageiros"></div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="../js/app.js"></script>
+  <script>
+    requireAuth();
+    renderNavbar('historico');
+    let historico = null;
+
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tabOferecidas').style.display = tab === 'oferecidas' ? 'block' : 'none';
+      document.getElementById('tabReservadas').style.display = tab === 'reservadas' ? 'block' : 'none';
+      if (tab === 'reservadas' && historico) renderReservadas();
+    }
+
+    async function loadHistorico() {
+      historico = await apiFetch('/api/historico');
+      renderOferecidas();
+    }
+
+    function renderOferecidas() {
+      const el = document.getElementById('listaOferecidas');
+      if (!historico.oferecidas.length) {
+        el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🚗</div><h3>Nenhuma carona oferecida</h3><p><a href="oferecer.html" class="link">Ofereça sua primeira carona!</a></p></div>`;
+        return;
+      }
+      el.innerHTML = `<div class="caronas-grid">${historico.oferecidas.map(renderCardMotoristа).join('')}</div>`;
+    }
+
+    function renderCardMotoristа(c) {
+      const data = new Date(c.data_viagem + 'T00:00:00').toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
+      return `
+        <div class="carona-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+            <div></div>
+            <span class="status-badge status-${c.status}">${c.status}</span>
+          </div>
+          <div class="carona-rota" style="margin-bottom: 0.75rem;">
+            <div class="carona-cidade">${c.origem}</div>
+            <div class="carona-seta"></div>
+            <div class="carona-cidade">${c.destino}</div>
+          </div>
+          <div class="carona-meta" style="margin-bottom: 1rem;">
+            <div class="meta-item"><div class="meta-icon">📅</div>${data}</div>
+            <div class="meta-item"><div class="meta-icon">🕐</div>${c.horario.slice(0,5)}</div>
+            <div class="meta-item"><div class="meta-icon">👥</div>${c.total_passageiros || 0} passageiros</div>
+          </div>
+          <div class="carona-footer">
+            <button onclick="verPassageiros(${c.id})" class="btn btn-sm btn-verde">👥 Ver passageiros</button>
+            ${c.status === 'ativa' 
+              ? `<button onclick="cancelarCarona(${c.id})" class="btn btn-danger btn-sm">Cancelar</button>`
+              : ''}
+          </div>
+        </div>`;
+    }
+
+    function renderReservadas() {
+      const el = document.getElementById('listaReservadas');
+      if (!historico.reservadas.length) {
+        el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🎫</div><h3>Nenhuma reserva feita</h3><p><a href="caronas.html" class="link">Busque uma carona disponível!</a></p></div>`;
+        return;
+      }
+      el.innerHTML = `<div class="caronas-grid">${historico.reservadas.map(renderCardPassageiro).join('')}</div>`;
+    }
+
+    function renderCardPassageiro(r) {
+      const data = new Date(r.data_viagem + 'T00:00:00').toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
+      return `
+        <div class="carona-card">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+            <span class="status-badge status-${r.reserva_status}">reserva: ${r.reserva_status}</span>
+            <span class="status-badge status-${r.status}">${r.status}</span>
+          </div>
+          <div class="carona-rota" style="margin-bottom: 0.75rem;">
+            <div class="carona-cidade">${r.origem}</div>
+            <div class="carona-seta"></div>
+            <div class="carona-cidade">${r.destino}</div>
+          </div>
+          <div class="carona-meta" style="margin-bottom: 1rem;">
+            <div class="meta-item"><div class="meta-icon">📅</div>${data}</div>
+            <div class="meta-item"><div class="meta-icon">🕐</div>${r.horario.slice(0,5)}</div>
+            <div class="meta-item"><div class="meta-icon">👤</div>${r.motorista_nome}</div>
+            ${r.motorista_telefone ? `<div class="meta-item"><div class="meta-icon">📞</div>${r.motorista_telefone}</div>` : ''}
+          </div>
+          ${r.reserva_status === 'confirmada' && r.status === 'ativa'
+            ? `<div class="carona-footer"><button onclick="cancelarReserva(${r.reserva_id})" class="btn btn-danger btn-sm">Cancelar reserva</button></div>`
+            : ''}
+        </div>`;
+    }
+
+    async function verPassageiros(caronaId) {
+      document.getElementById('listaPassageiros').innerHTML = '<div class="spinner"></div>';
+      document.getElementById('modalPassageiros').classList.add('open');
+      const passageiros = await apiFetch(`/api/caronas/${caronaId}/passageiros`);
+      if (!passageiros.length) {
+        document.getElementById('listaPassageiros').innerHTML = '<div class="empty-state"><div class="empty-state-icon">👥</div><h3>Nenhum passageiro ainda</h3></div>';
+        return;
+      }
+      document.getElementById('listaPassageiros').innerHTML = passageiros.map(p => `
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--borda);">
+          <div class="avatar" style="width:40px;height:40px;">${p.nome.charAt(0)}</div>
+          <div>
+            <div style="font-weight: 600;">${p.nome}</div>
+            <div class="text-suave">${p.email}</div>
+            ${p.telefone ? `<div class="text-suave">📞 ${p.telefone}</div>` : ''}
+            ${p.curso ? `<div class="text-suave">📚 ${p.curso}</div>` : ''}
+          </div>
+        </div>`).join('');
+    }
+
+    async function cancelarCarona(id) {
+      if (!confirm('Cancelar esta carona? Todos os passageiros serão notificados.')) return;
+      const res = await apiFetch(`/api/caronas/${id}`, { method: 'DELETE' });
+      showToast(res.mensagem || res.erro, res.mensagem ? 'success' : 'error');
+      loadHistorico();
+    }
+
+    async function cancelarReserva(id) {
+      if (!confirm('Cancelar esta reserva?')) return;
+      const res = await apiFetch(`/api/reservas/${id}`, { method: 'DELETE' });
+      showToast(res.mensagem || res.erro, res.mensagem ? 'success' : 'error');
+      loadHistorico();
+    }
+
+    loadHistorico();
+  </script>
+</body>
+</html>
