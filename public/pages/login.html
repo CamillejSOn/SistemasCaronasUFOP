@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar — UFOP Caronas</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="auth-page">
+    <!-- Left Panel -->
+    <div class="auth-left">
+      <a href="../pages/index.html" class="navbar-brand" style="margin-bottom: 3rem;">
+        <div class="navbar-logo">🚗</div>
+        <span class="navbar-brand-text" style="color:white;">UFOP <span>Caronas</span></span>
+      </a>
+      <h1 style="font-size: 2.2rem; font-weight: 800; color: white; line-height: 1.2; margin-bottom: 1rem;">
+        Sua viagem começa aqui.
+      </h1>
+      <p style="color: rgba(255,255,255,0.7); font-size: 1.05rem; max-width: 320px;">
+        Conectando alunos da UFOP para viagens mais baratas, seguras e sustentáveis.
+      </p>
+    </div>
+
+    <!-- Right Panel / Form -->
+    <div class="auth-right">
+      <div class="auth-box">
+        <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--verde); margin-bottom: 0.25rem;">Bem-vindo de volta!</h2>
+        <p style="color: var(--texto-suave); font-size: 0.9rem; margin-bottom: 2rem;">Entre com sua conta UFOP</p>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input type="email" id="email" class="form-control" placeholder="seu@aluno.ufop.br" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Senha</label>
+            <input type="password" id="senha" class="form-control" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-verde btn-full" id="btnLogin">
+            Entrar na plataforma
+          </button>
+        </form>
+
+        <p class="text-center mt-2" style="font-size: 0.9rem; color: var(--texto-suave);">
+          Não tem conta? <a href="../pages/register.html" class="link">Cadastre-se grátis</a>
+        </p>
+              
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="../js/app.js"></script>
+  <script>
+    redirectIfAuth();
+
+    function fillDemo(email) {
+      document.getElementById('email').value = email;
+      document.getElementById('senha').value = 'senha123';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnLogin');
+      btn.disabled = true;
+      btn.textContent = 'Entrando...';
+      const ok = await login(
+        document.getElementById('email').value,
+        document.getElementById('senha').value
+      );
+      if (!ok) {
+        btn.disabled = false;
+        btn.textContent = 'Entrar na plataforma';
+      }
+    });
+  </script>
+</body>
+</html>
