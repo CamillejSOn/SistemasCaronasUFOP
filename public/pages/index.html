@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UFOP Caronas — Conectando Universitários</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">
+      <div class="navbar-logo">🚗</div>
+      <span class="navbar-brand-text">UFOP <span>Caronas</span></span>
+    </a>
+    <ul class="navbar-nav" id="navLinks">
+      <li><a href="login.html" class="btn btn-outline btn-sm">Entrar</a></li>
+      <li><a href="register.html" class="btn btn-primary btn-sm">Cadastrar</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">🎓 Exclusivo para alunos da UFOP</div>
+    <h1>Compartilhe a estrada,<br><span>reduza os custos.</span></h1>
+    <p>Conectamos motoristas e passageiros da UFOP para tornar seu deslocamento mais barato, seguro e sustentável.</p>
+    <div class="hero-actions">
+      <a href="caronas.html" class="btn btn-primary">🔍 Buscar Caronas</a>
+      <a href="register.html" class="btn btn-outline">Criar conta grátis</a>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section style="padding: 3rem 2rem; background: var(--creme-escuro);">
+    <div class="container">
+      <div class="stats-grid" id="landingStats">
+        <div class="stat-card"><span class="stat-icon">👥</span><div class="stat-value" id="statUsers">—</div><div class="stat-label">Universitários</div></div>
+        <div class="stat-card"><span class="stat-icon">🚗</span><div class="stat-value" id="statCaronas">—</div><div class="stat-label">Caronas Ativas</div></div>
+        <div class="stat-card"><span class="stat-icon">📍</span><div class="stat-value" id="statReservas">—</div><div class="stat-label">Reservas Feitas</div></div>
+        <div class="stat-card"><span class="stat-icon">💚</span><div class="stat-value">CO₂↓</div><div class="stat-label">Menor emissão</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section">
+    <div class="container text-center">
+      <h2 class="section-title">Como funciona</h2>
+      <p class="section-subtitle">Simples, rápido e seguro para toda a comunidade UFOP.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <h3>1. Crie sua conta</h3>
+          <p>Cadastre-se com seu e-mail institucional, sua cidade base e curso na UFOP.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🗺️</div>
+          <h3>2. Ofereça ou busque</h3>
+          <p>Motoristas publicam rotas com datas e vagas. Passageiros encontram e reservam em segundos.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤝</div>
+          <h3>3. Viajem juntos</h3>
+          <p>Entre em contato, combinam os detalhes e economizem dividindo o custo da viagem.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background: var(--verde); padding: 4rem 2rem; text-align: center;">
+    <h2 style="font-family: 'Sora',sans-serif; font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 1rem;">Pronto para começar?</h2>
+    <p style="color: rgba(255,255,255,0.75); margin-bottom: 2rem;">Junte-se a centenas de alunos que já economizam nas viagens.</p>
+    <a href="register.html" class="btn btn-primary" style="font-size: 1rem; padding: 14px 32px;">Criar conta grátis →</a>
+  </section>
+
+  <footer style="background: #111; color: rgba(255,255,255,0.5); text-align: center; padding: 1.5rem; font-size: 0.85rem;">
+    © 2024 UFOP Caronas — Projeto Acadêmico de Engenharia de Software
+  </footer>
+
+  <div id="toast-container"></div>
+  <script src="../js/app.js"></script>
+  <script>
+    checkAuthRedirect();
+    // Load stats
+    fetch('/api/admin/relatorios').then(r => r.json()).then(d => {
+      if (d.total_usuarios) {
+        document.getElementById('statUsers').textContent = d.total_usuarios;
+        document.getElementById('statCaronas').textContent = d.caronas_ativas;
+        document.getElementById('statReservas').textContent = d.total_reservas;
+      }
+    }).catch(() => {});
+  </script>
+</body>
+</html>
