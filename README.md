@@ -12,9 +12,9 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 ## ⚙️ **Tecnologias e Ferramentas**
 
-* **Linguagem:** Python
-* **Framework Web:** Flask
-* **Banco de Dados:** SQLite (via SQLAlchemy ORM)
+* **Linguagem:** JavaScript (Node.js no backend e js no frontend) 
+* **Framework Web:** Express.Js
+* **Banco de Dados:** PostgreSQL
 * **Frontend:** HTML, CSS e JavaScript (Bootstrap)
 * **Versionamento:** GitHub
 * **Gerenciamento de tarefas:** Notion (para controle do backlog e progresso do sprint)
