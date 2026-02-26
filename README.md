@@ -25,12 +25,12 @@ A equipe utilizará o **Notion** para organização do backlog, sprints e tarefa
 
 | Integrante              | Papel          | Descrição das Responsabilidades                                                                                                                                                     |
 | ----------              | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Geovanna Paulina        | Backend        | Desenvolvimento do módulo de usuários (cadastro, login, autenticação e controle de sessões). Integração com banco de dados e rotas Flask.                                           |
+| Geovanna Paulina        | Backend        | Desenvolvimento do módulo de usuários (cadastro, login, autenticação e controle de sessões). Integração com banco de dados.                                           |
 | Ana Carolina Ferreira   | Backend        | Implementação do módulo de oferta de caronas (CRUD de caronas: criar, editar, excluir e listar). Relacionamento entre motoristas e viagens no banco de dados.                       |
 | Camille Silva           | Frontend       | Desenvolvimento do módulo de busca e reserva de caronas (consultas SQL, filtragem por cidade, data e horário; reserva de vagas). Integração com frontend.                           |
 | Brenda Mel              | Frontend       | Implementação do módulo de cancelamento e histórico de caronas (usuário pode cancelar reservas ou ver histórico de viagens oferecidas/participadas). Criação de tabelas auxiliares. |
 | Danilo Carvalho         | Fullstack / BD | Desenvolvimento dos relatórios administrativos (uso do sistema, rotas mais populares, total de usuários ativos). Queries analíticas no banco de dados.                              |
-| Lucas Sobrosa           | Fullstack / BD | Integração geral do sistema, padronização das rotas Flask, configuração inicial do projeto (banco, templates, rotas base) e deploy local.                                           |
+| Lucas Sobrosa           | Fullstack / BD | Integração geral do sistema, padronização das rotas, configuração inicial do projeto (banco, templates, rotas base) e deploy local.                                           |
 
 ---
 
